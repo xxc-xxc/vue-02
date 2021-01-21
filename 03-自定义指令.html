@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" name="" id="" v-focus>
+        <input type="text" v-color="msg">
+        <div style="width: 50px; height: 50px;" v-color="msg">1</div>
+    </div>
+    <script>
+
+        // 注意点：
+        /**
+         * 1.在自定义指令中，如果以驼峰命名的方式定义，
+         *  如：Vue.directive('focusA', function(){})
+         * 2.在HTML中使用时，只能通过v-focus-a来使用
+         */
+
+        // 1.自定义全局指令
+        // Vue.directive('focus', {
+        //     // 当绑定元素插入到DOM中时，获得焦点
+        //     inserted(el) {
+        //         el.focus();
+        //     }
+        // });
+
+        // 2.自定义指令-带参数
+        // Vue.directive('color', {
+        //     // bind生命周期，只调用一次，指令第一次绑定到元素时调用。所以可以在此进行一次性的初始化设置。
+        //     // el 为当前自定义指令的DOM元素
+        //     // binding 为自定义的函数形参，通过自定义属性传递过来的值，存在binding.value中
+        //     bind: function(el, binding){
+        //         // 根据指令的参数设置背景色
+        //         el.style.backgroundColor = binding.value.color;
+        //     }
+        // });
+
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               msg: {
+                   color: 'yellow',
+               }
+           },
+           methods:{
+
+           },
+           // 3.自定义局部指令
+           directives: {
+               color: {
+                   bind: function(el, binding) {
+                       el.style.backgroundColor = binding.value.color;
+                   }
+               },
+               focus: {
+                   inserted: function(el) {
+                       el.focus();
+                   }
+               }
+           }
+        });
+    </script>
+</body>
+
+</html>
