@@ -5,23 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="./git js/vue.js"></script>
+    <script src="./js/vue.js"></script>
 </head>
 
 <body>
     <div id="app">
+        <!-- 将字符串转为数值 -->
         <input type="text" v-model.number="age">
         <button @click="handle">计算</button>
+        <!-- 修剪首位空白字符 -->
+        <input type="text" name="" id="" v-model.trim="msg">
+        <!-- 将input事件转为change事件 -->
+        <!-- 即将原本绑定在 input 事件的同步逻辑转变为绑定在 change 事件上 -->
+        <!-- 在失去焦点或者按下回车键时才更新 -->
+        <input type="text" v-model.lazy="lazy">
+        <div>{{lazy}}</div>
     </div>
     <script>
         let vm=new Vue({
            el:'#app',
            data:{
                age: '',
+               msg: '',
+               lazy: '',
            },
            methods:{
                handle() {
-                   console.log(this.age + 13);
+                //    console.log(this.age + 13);
+                //    console.log(this.msg.length);
+                console.log(this.lazy);
                }
            },
         });
