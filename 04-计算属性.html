@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 调用methods中的方法时，会多次调用 -->
+        <div>{{reverseMessage()}}</div>
+        <div>{{reverseMessage()}}</div>
+
+        <!-- 
+            当多次调用reverseString的时候，
+            只要num的值不改变，就始终返回第一次计算的结果
+            直到data中的num值改变，计算属性才会重新计算 
+        -->
+        <div>{{reverseString}}</div>
+        <div>{{reverseString}}</div>
+    </div>
+    <script>
+
+        /**
+         * 1.计算属性是基于它们的响应式依赖进行缓存的
+         * 2.computed适合对多个变量或者对象进行处理后返回一个结果值。
+         *   也就是多个变量中的某一个发生了变化则我们监控的值也就发生变化。
+         */ 
+
+        /**
+         * 计算属性与方法的区别：计算属性是基于依赖缓存的，而方法不缓存
+         */  
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               msg: 'Nihao',
+               num: 100,
+           },
+           methods:{
+               reverseMessage() {
+                   console.log('methods');
+                //    return this.msg.split('').reverse().join('');
+                   return Array.from(this.msg).reverse().join('');
+               }
+           },
+           computed: { // 定义计算属性
+               reverseString() {
+                   console.log('computed');
+                   let total = 0;
+                   for (let i = 0; i < this.num; i++) {
+                       total += i;
+                   }
+
+                   return total;
+               }
+           }
+        });
+    </script>
+</body>
+
+</html>
