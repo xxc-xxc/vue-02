@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+               createdMethod() {
+                   console.log('---created---')
+               }
+           },
+           // 生命周期函数
+           beforeCreate() {
+               /**
+                * 在实例初始化之后，数据观测和事件配置之前被调用，
+                * 此时data和methods以及页面的DOM结构都没有初始化。
+                */ 
+               console.log('beforeCreate');
+           },
+           created() {
+               /**
+                * 在实例创建完成后被立即调用，此时data和methods已经可以使用
+                * 但是页面还没有渲染出来
+                */ 
+               this.createdMethod();
+               console.log('created');
+           },
+           beforeMount() {
+               /**
+                * 在挂载开始之前被调用，此时页面上还看不到真实数据，只是一个模板页面
+                */ 
+               console.log('beforeMount');
+           },
+           mounted() {
+               /**
+                * el被新创建的vm.$el替换，并挂载到实例上去之后调用该钩子方法。
+                * 数据已经真实渲染到页面上。
+                * 在这个钩子函数中可以使用一些第三方的插件。
+                */ 
+               console.log('mounted');
+           },
+           beforeUpdate() {
+               /**
+                * 数据更新时调用，发生在虚拟DOM打补丁之前。
+                * 页面上的数据还是旧的
+                */ 
+               console.log('beforeUpdate');
+           },
+           updated() {
+               /**
+                * 由于数据更改导致的虚拟DOM重新渲染和打补丁，在这之后会调用该钩子函数。
+                * 页面上的数据已经更新。
+                */ 
+               console.log('updated');
+           },
+           beforeDestroy() {
+               /**
+                * 实例销毁之前调用
+                */ 
+               console.log('beforeDestroy');
+           },
+           destroyed() {
+               /**
+                * 实例销毁之后调用
+                */ 
+               console.log('destroyed');
+           },
+        });
+    </script>
+</body>
+
+</html>
