@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <input type="text" name="" id="" v-model="msg">
+        <!-- upper被定义为接收单个参数的过滤器函数，表达式msg的值将作为参数转入到函数中 -->
+        <div>{{msg | upper}}</div>
+        <!-- 
+            支持级联操作
+            调用同样被定义为接收单个参数的过滤器 lower ，将upper 的结果传递到lower中
+         -->
+         <div>{{msg | upper | lower}}</div>
+         <!-- 应用于属性绑定 -->
+         <div v-bind:abc="msg | upper">qwe</div>
+
+         <!-- 过滤器传参 -->
+         <div>{{num | filterA('arg1', 'arg2')}}</div>
+    </div>
+    <script>
+        /**
+         * 1.Vue.js允许自定义过滤器，可用于一些常见的文本格式化。
+         * 2.过滤器可以用在两个地方：双花括号插值和v-bind表达式。
+         * 3.过滤器应该被添加到JavaScript表达式的尾部，由"管道"符号表示。
+         * 4.支持级联操作。
+         * 5.过滤器不改变真正的data，只是改变渲染的结果，并返回过滤后的版本。
+         */ 
+
+        // 定义全局过滤器
+        Vue.filter('lower', function(val) {
+            return val.charAt(0).toLowerCase() + val.slice(1);
+        });
+
+        // 过滤器中传递参数
+        /**
+         * 在过滤器中，第一个参数对应的是管道符前面的数据，此时n对应的是msg
+         * a对应实参arg1
+         * b对应实参arg2
+         */ 
+        Vue.filter('filterA', function (n, a, b) {
+            if(n < 10) {
+                return n + a;
+            } else {
+                return n + b;
+            }
+        });
+
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               msg: '',
+               num: 100,
+           },
+           methods:{
+
+           },
+           // 定义局部过滤器
+           filters: {
+               upper: function(val) {
+                   // upper：自定义过滤器名字
+                   // upper被定义为接收单个参数的过滤器函数
+                   return val.charAt(0).toUpperCase() + val.slice(1);
+               }
+           }
+        });
+    </script>
+</body>
+
+</html>
