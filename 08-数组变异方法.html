@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" name="" id="" v-model="msg">
+        <input type="button" value="push" @click="push">
+        <input type="button" value="pop" @click="pop">
+        <input type="button" value="shift" @click="shift">
+        <input type="button" value="unshift" @click="unshift">
+        <input type="button" value="splice" @click="splice">
+        <input type="button" value="sort" @click="sort">
+        <input type="button" value="reverse" @click="reverse">
+    </div>
+    <script>
+        /**
+         * 1.在Vue中，直接修改对象属性的值无法触发响应式。直接修改对象的属性值，只有数据改变了，页面内容没有改变。
+         * 2.变异数组方法即保持数据方法原有功能不变的前提下对其进行功能扩展。
+         */ 
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               msg: '',
+               strs: [],
+           },
+           methods:{
+               push() {
+                   // 往数组最后添加一个元素，成功返回当前数组的长度。
+                   let len = this.strs.push(this.msg);
+                   console.log(len);
+               },
+               pop() {
+                   // 删除数组的最后一个元素，成功返回删除元素的值。
+                   let val = this.strs.pop();
+                   console.log(val);
+               },
+               shift() {
+                   // 删除数组的第一个元素，成功返回删除元素的值。
+                   let val = this.strs.shift();
+                   console.log(val);
+               },
+               unshift() {
+                   // 往数组最前面添加一个元素，成功返回当前数组的长度。
+                   let len = this.strs.unshift(this.msg);
+                   console.log(len);
+               },
+               splice() {
+                   // 有三个参数:
+                   // 第一个是想要删除的元素的下标（必选）
+                   // 第二个是想要删除的个数
+                   // 第三个是删除后想要在原位置替换的值
+                   this.strs.splice(1, 1, 'hello');
+               },
+               sort() {
+                   // 使数组按照字符编码默认从小到大排序，成功返回排序后的数组。
+                   let newStrs = this.strs.sort();
+                   console.log(newStrs);
+               },
+               reverse() {
+                   // 将数组倒序，成功返回倒序后的数组。
+                   let reverseStrs = this.strs.reverse();
+                   console.log(reverseStrs);
+               }
+           },
+        });
+    </script>
+</body>
+
+</html>

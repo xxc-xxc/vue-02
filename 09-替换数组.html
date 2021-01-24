@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="filter" @click="even(nums)">
+        <ul>
+            <li v-for="(item, index) in even(nums)" :key="index">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        // 替换数组，不会改变原始数组，但总是返回一个新的数组
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               nums: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+           },
+           methods:{
+               even: function(nums) {
+                   // filter()方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+                   let newNums = nums.filter(function(num) {
+                       return num % 2 == 0;
+                   });
+                   console.log(newNums);
+                   return newNums;
+               }
+           },
+        });
+    </script>
+</body>
+
+</html>
