@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item, index) in list" :key="index">{{item}}</li>
+        </ul>
+        <input type="button" value="刷新" @click="refresh">
+    </div>
+    <script>
+        // Vue.set(a, b, c)：触发视图重新更新一遍，数据动态起来。
+        // a：要更改的数据，b：数据的第几项，c：更改后的数据
+        let vm=new Vue({
+           el:'#app',
+           data:{
+               list: ['a', 'b', 'c'],
+           },
+           methods:{
+               refresh() {
+                   // 修改了数据，但是视图没有更新
+                   // this.list[0] = '000';
+                   // console.log(this.list);
+                   this.$set(this.list, 0, 'xiaoyingxin');
+                   console.log(this.list);
+               }
+           },
+        });
+    </script>
+</body>
+
+</html>
