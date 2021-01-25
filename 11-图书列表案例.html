@@ -7,9 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style type="text/css">
+        .manage {
+            margin: auto;
+            text-align: center;
+            margin-bottom: 10px;
+        }
         .grid {
           margin: auto;
-          width: 500px;
+          width: 600px;
           text-align: center;
         }
         .grid table {
@@ -32,19 +37,19 @@
 <body>
     <div id="app">
         <!-- 添加图书 -->
-        <div class="grid">
+        <div class="manage">
             <h1>图书管理</h1>
             <div>
                 <label for="id">
                     编号：
                 </label>
                 <!-- 1.通过双向绑定获取到输入框中输入的id -->
-                <input type="text" name="" id="id" v-model="id">
+                <input type="text" name="" id="id" v-model="id" :disabled="flag">
                 <label for="name">
                     名称：
                 </label>
                 <input type="text" name="" id="nmae" v-model="name">
-                <button @click="handle">添加</button>
+                <button @click="handle">提交</button>
             </div>
         </div>
         <!-- 渲染数据 -->
@@ -65,9 +70,9 @@
                         <td>{{item.date}}</td>
                         <td>
                             <!-- 阻止a标签的默认跳转事件 -->
-                            <a href="" @click.prevent>修改</a>
+                            <a href="" @click.prevent="toEdit(item.id)">修改</a>
                             <span>|</span>
-                            <a href="" @click.prevent>删除</a>
+                            <a href="" @click.prevent="deleteBook(item.id)">删除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -78,6 +83,7 @@
         let vm = new Vue({
             el: '#app',
             data: {
+                flag: false, // 是否处于编辑状态下
                 id: '',
                 name: '',
                 books: [{
@@ -100,14 +106,56 @@
             },
             methods: {
                 handle() {
-                    let book = {};
-                    book.id = this.id;
-                    book.name = this.name;
-                    book.date = '';
-                    this.books.push(book);
+                    if(this.flag) {
+                        // 编辑
+                        // 根据id更新对应的数据
+                        this.books.some((item) => {
+                            if(item.id = this.id) {
+                                item.name = this.name;
+                                return true;
+                            }
+                        });
+                        this.flag = false;
+                    } else {
+                        // 添加
+                        let book = {};
+                        book.id = this.id;
+                        book.name = this.name;
+                        book.date = '';
+                        this.books.push(book);
+                    }
+
                     // 清空输入框
                     this.id = '';
                     this.name = '';
+                },
+                toEdit(id) {
+                    this.flag = true;
+                    console.log(id);
+                    let book = this.books.filter(function(item) {
+                        return item.id == id;
+                    });
+                    console.log(book);
+                    this.id = book[0].id;
+                    this.name = book[0].name;
+                },
+                deleteBook(id) {
+                    // 删除图书
+                    // 根据id从数组中查找元素的索引
+                    // let index = this.books.findIndex(function(item) {
+                    //     return item.id = id;
+                    // });
+                    // // 根据索引删除数据
+                    // if(index != -1) {
+                    //     this.books.splice(index, 1);
+                    // }
+
+                    // 通过filter删除
+                    // 使用filter方法过滤出不是要删除的id
+                    // 因为filter是替换数组不会修改原始数据，所以需要把不是要删除书籍的数据赋值给books
+                    this.books = this.books.filter(function(item) {
+                        return item.id != id;
+                    });
                 }
             },
         });
